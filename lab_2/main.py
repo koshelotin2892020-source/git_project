@@ -1,6 +1,7 @@
 import random
 from collections import Counter
 
+
 def task1():
     print("=== ЗАДАНИЕ 1 ===")
     # Таблица умножения
@@ -168,72 +169,75 @@ def task4():
 
 def task5():
     print("=== ЗАДАНИЕ 5 ===")
-    # # Уникальные значения
-    # numbers = [random.randint(-10, 10) for _ in range(20)]
-    # print('Массив случайных чисел: ', numbers)
-    # print("Уникальные значения:", list(set(numbers)))
-    # print()
-    # # Частота элементов
-    # mass = [12, 12, 54, 99, 12, 54]
-    # dict_0 = {}
-    # for i in mass:
-    #     dict_0[i] = mass.count(i)
-    # print('Массив:', mass)
-    # print('Частота элементов:', dict_0)
-    # print()
-    # # Слова длиннее 5 символов
-    # mass_1 = ['Яблоко', 'Нож', 'Лицо', 'Рекогносцировка']
-    # set_0 = {i for i in mass_1 if len(i) > 5}
-    # print('Список слов:', mass_1)
-    # print('Слова длиннее 5 символов:', set_0)
-    # print()
-    # # Частота слов в строке
-    # str_0 = input('Введите строку: ').split()
-    # dict_1 = {}
-    # for i in str_0:
-    #     if i in dict_1:
-    #         dict_1[i] += 1
-    #     else:
-    #         dict_1[i] = 1
-    # print('Частота слов:', dict_1)
-    # print()
-    # # Уникальные значения
-    # numbers_0 = [12, 45, 88, 12, 88]
-    # print('Массив чисел: ', numbers_0)
-    # print("Уникальные значения:", list(set(numbers_0)))
-    # print()
-    # # Самый дорогой товар
-    # dict_2 = {
-    #     'Селедка': 125,
-    #     'Лед на палочке': 50,
-    #     'Жигули': 200000
-    # }
-    # max_product = max(dict_2, key=dict_2.get)
-    # print('Товары и цены:', dict_2)
-    # print(f'Самый дорогой товар: {max_product} ({dict_2[max_product]} руб.)')
-    # print()
-    # # Имена более одного раза
-    # names = ['Иван', 'Олег', 'Иван', 'Иван', 'Роберт', 'Лютик', 'Олег', 'Иван']
-    # names = Counter(names)
-    # print(names)
-    # print('Имена, встречающиеся более 1 раза')
-    # dig = 0
-    # for key, val in names.items():
-    #     if val > dig:
-    #         dig = val
-    #     if val > 1:
-    #         print(key)
-    # for key, val in names.items():
-    #     if val == dig:
-    #         print(f'Самое частое имя: {key}')
-    # print()
-    # # Словарь из строки
+    # Уникальные значения
+    numbers = [random.randint(-10, 10) for _ in range(20)]
+    print('Массив случайных чисел: ', numbers)
+    print("Уникальные значения:", list(set(numbers)))
+    print()
+    # Частота элементов
+    mass = [12, 12, 54, 99, 12, 54]
+    dict_0 = {}
+    for i in mass:
+        dict_0[i] = mass.count(i)
+    print('Массив:', mass)
+    print('Частота элементов:', dict_0)
+    print()
+    # Слова длиннее 5 символов
+    mass_1 = ['Яблоко', 'Нож', 'Лицо', 'Рекогносцировка']
+    set_0 = {i for i in mass_1 if len(i) > 5}
+    print('Список слов:', mass_1)
+    print('Слова длиннее 5 символов:', set_0)
+    print()
+    # Частота слов в строке
+    str_0 = input('Введите строку: ').split()
+    dict_1 = {}
+    for i in str_0:
+        if i in dict_1:
+            dict_1[i] += 1
+        else:
+            dict_1[i] = 1
+    print('Частота слов:', dict_1)
+    print()
+    # Уникальные значения
+    numbers_0 = [12, 45, 88, 12, 88]
+    print('Массив чисел: ', numbers_0)
+    print("Уникальные значения:", list(set(numbers_0)))
+    print()
+    # Самый дорогой товар
+    dict_2 = {
+        'Селедка': 125,
+        'Лед на палочке': 50,
+        'Жигули': 200000
+    }
+    max_product = max(dict_2, key=dict_2.get)
+    print('Товары и цены:', dict_2)
+    print(f'Самый дорогой товар: {max_product} ({dict_2[max_product]} руб.)')
+    print()
+    # Имена более одного раза
+    names = ['Иван', 'Олег', 'Иван', 'Иван', 'Роберт', 'Лютик', 'Олег', 'Иван']
+    names = Counter(names)
+    print(names)
+    print('Имена, встречающиеся более 1 раза')
+    dig = 0
+    for key, val in names.items():
+        if val > dig:
+            dig = val
+        if val > 1:
+            print(key)
+    for key, val in names.items():
+        if val == dig:
+            print(f'Самое частое имя: {key}')
+    print()
+    # Словарь из строки
     stroka = input('Введите строку: ')
     dict_1 = {}
+    n = -1
     for i in stroka:
-        
-            
-        
+        n += 1
+        if i in dict_1:
+            continue
+        dict_1[i] = n
+    print(dict_1)
 
 
 # Основная программа
