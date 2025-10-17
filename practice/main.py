@@ -4,7 +4,7 @@ def logger(func):
             print(f"Вызов функции {func.__name__} с аргументами {args} и {kwargs}")
         else:
             print(f"Вызов функции {func.__name__} с аргументами {args}")
-        result = func(*args, **kwargs)
+        result = func(*args)
         print(f"Функция {func.__name__} вернула {result}")
         return result
     return wrapper
@@ -14,7 +14,7 @@ def require_role(allowed_roles):
     def decorator(func):
         def wrapper(*args):
             if args[0] in users:
-                if users[args[0]] in roles:
+                if users[args[0]] in allowed_roles:
                     return func(args[0])
                 else:
                     print(f"Доступ запрещён пользователю {args[0]}")
@@ -36,7 +36,7 @@ users = {
 def add(a, b):
     try:
         return a + b
-    except:
+    except TypeError:
         print("ОШИБКА - Надо ввести два числа")
 
 
@@ -62,9 +62,9 @@ divide(12, 2)
 print("*"*20)
 greet("Alex")
 
-
-# @logger
+@logger
 @require_role(roles)
+@logger
 def delete_database(user):
     print(f"База данных удалена пользователем {user}")
 

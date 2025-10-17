@@ -1,0 +1,6 @@
+(2, 10)
+# print(c)
+divide(12, 0)
+d = divide(12, 2)
+print(d)
+greet("Alex")
