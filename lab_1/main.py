@@ -192,12 +192,14 @@ def task_9():
     a = input('Введите символ: ')
     if re.search('^[0-9]$', a):
         print('Символ является цифрой')
-    if re.search('^[a-zA-z]$', a):
+    elif re.search('^[a-zA-z]$', a):
         print('Символ является буквой')
         if re.search('^[A-Z]$', a):
             print('Буква является прописной')
         if re.search('^[aeiouAEIOU]$', a):
             print('Буква является гласной')
+    else:
+        print('Спец символ')
 
 
 def task_10():

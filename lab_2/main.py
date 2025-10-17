@@ -172,15 +172,25 @@ def task5():
     # Уникальные значения
     numbers = [random.randint(-10, 10) for _ in range(20)]
     print('Массив случайных чисел: ', numbers)
-    print("Уникальные значения:", list(set(numbers)))
+    dict_0 = {}
+    for i in numbers:
+        dict_0[i] = numbers.count(i)
+    print(dict_0)
+    m = []
+    for i, j in dict_0.items():
+        if j == 1:
+            m.append(i)
+    print(m)
+    # print("Уникальные значения:", list(set(numbers)))
+    
     print()
     # Частота элементов
     mass = [12, 12, 54, 99, 12, 54]
-    dict_0 = {}
+    dict_1 = {}
     for i in mass:
-        dict_0[i] = mass.count(i)
+        dict_1[i] = mass.count(i)
     print('Массив:', mass)
-    print('Частота элементов:', dict_0)
+    print('Частота элементов:', dict_1)
     print()
     # Слова длиннее 5 символов
     mass_1 = ['Яблоко', 'Нож', 'Лицо', 'Рекогносцировка']

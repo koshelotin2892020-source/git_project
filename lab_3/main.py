@@ -85,13 +85,13 @@ def task_6():
     print("=== ЗАДАНИЕ 6 ===")
     # Точные вычисления
     print('Точные вычисления')
-    total, interest = calc_finance(1000, 5, 2)
+    total, interest = calc_finance(150000, 16.5, 1)
     print(round(total, 2), round(interest, 2))
 
 
 def task_7():
     print("=== ЗАДАНИЕ 7 ===")
-    # Рациональьные дроби
+    # Рациональные дроби
     print('Рациональные дроби')
     a = Fraction(3, 4)  # 3/4
     b = Fraction(5, 6)  # 5/6
