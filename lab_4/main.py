@@ -28,13 +28,9 @@ class Car(Transport):
         return self.seats
 
     def __eq__(self, other):
-        if not isinstance(other, Car):
-            return NotImplemented
         return self.speed == other.speed
 
     def __add__(self, other):
-        if not isinstance(other, Car):
-            return NotImplemented
         return self.speed + other.speed
 
 
@@ -50,11 +46,11 @@ class Bike(Transport):
         return f"Transport: {self.brand}, Speed: {self.speed}, Type: {self.type}"
 
 
-tr_1 = Transport("toy", 90)
+tr_1 = Transport("toyota", 90)
 tr_2 = Transport('merc', 120)
 car_1 = Car("hermit", 80, 5)
 car_2 = Car('sss+', 80, 4)
-bike_1 = Bike("aaa", 100, 'sport')
+bike_1 = Bike("AAA", 100, 'sport')
 bike_2 = Bike('ninja', 130, 'road')
 
 print(tr_1)
@@ -68,7 +64,7 @@ car_2.honk()
 print(len(car_1))
 print(car_1 == car_2)
 print(car_1 + car_2)
-# print(bike_1 + car_1)
+print(bike_1 + car_1)
 
 sp = [car_1, bike_1, tr_1]
 for i in sp:
