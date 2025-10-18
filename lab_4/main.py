@@ -22,7 +22,8 @@ class Car(Transport):
         print(f"Car {self.brand} is driving at {self.speed} km/h")
 
     def __str__(self):
-        return f"Transport: {self.brand}, Speed: {self.speed}, Seats: {self.seats}"
+        return (f"Transport: {self.brand}, "
+                f"Speed: {self.speed}, Seats: {self.seats}")
 
     def __len__(self):
         return self.seats
@@ -43,7 +44,8 @@ class Bike(Transport):
         print(f"Bike {self.brand} is cycling at {self.speed} km/h")
 
     def __str__(self):
-        return f"Transport: {self.brand}, Speed: {self.speed}, Type: {self.type}"
+        return (f"Transport: {self.brand}, "
+                f"Speed: {self.speed}, Type: {self.type}")
 
 
 tr_1 = Transport("toyota", 90)
@@ -64,7 +66,7 @@ car_2.honk()
 print(len(car_1))
 print(car_1 == car_2)
 print(car_1 + car_2)
-print(bike_1 + car_1)
+# print(bike_1 + car_1)
 
 sp = [car_1, bike_1, tr_1]
 for i in sp:
