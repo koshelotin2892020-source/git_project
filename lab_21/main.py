@@ -33,7 +33,13 @@ plt.ylabel('Скорость покемона')
 plt.title('График зависимости скорости от id покемона')
 plt.show()
 
-plt.scatter([x['hp'] for x in data], [x['attack'] for x in data])
+
+x = [x['hp'] for x in data]
+y = [x['attack'] for x in data]
+labels = [x['name'] for x in data]
+plt.scatter(x, y)
+for i, label in enumerate(labels):
+    plt.text(x[i], y[i], label)
 plt.xlabel('Здоровье покемона')
 plt.ylabel('Атака покемона')
 plt.title('Разброс точек hp/attack покемонов')
@@ -50,7 +56,7 @@ plt.xlabel('Защита покемона')
 plt.title('Горизонтальная столбчатая диаграмма защиты покемонов')
 plt.show()
 
-plt.hist([x['height'] for x in data], width=0.1)
+plt.hist([x['height'] for x in data], width=1)
 plt.xlabel('Рост покемона')
 plt.title('Гистограмма роста покемонов')
 plt.show()
