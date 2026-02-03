@@ -30,7 +30,7 @@ print(data)
 plt.plot([x['id'] for x in data], [x['speed'] for x in data])
 plt.xlabel('id покемона')
 plt.ylabel('Скорость покемона')
-plt.title('График зависимости скорочти от id покемона')
+plt.title('График зависимости скорости от id покемона')
 plt.show()
 
 plt.scatter([x['hp'] for x in data], [x['attack'] for x in data])
