@@ -47,6 +47,9 @@ class Bike(Transport):
         return (f"Transport: {self.brand}, "
                 f"Speed: {self.speed}, Type: {self.type}")
 
+    def __add__(self, other):
+        return self.speed + other.speed
+
 
 tr_1 = Transport("toyota", 90)
 tr_2 = Transport('merc', 120)
@@ -66,7 +69,7 @@ car_2.honk()
 print(len(car_1))
 print(car_1 == car_2)
 print(car_1 + car_2)
-# print(bike_1 + car_1)
+print(bike_1 + car_1)
 
 sp = [car_1, bike_1, tr_1]
 for i in sp:
