@@ -2,14 +2,16 @@ import re
 
 
 def login(login):
-    pattern = r'^[a-zA-Z][0-9a-zA-Z_]{4,18}[0-9a-zA-Z]$'
+    pattern = r'^[a-zA-Z][0-9a-zA-Z_]{3,18}[0-9a-zA-Z]$'
     if re.match(pattern, login):
         return True
     else:
         return False
 
+# print(login('abcd1'))
 
-def data(text):
+
+def date(text):
     pattern = [
             r'\d{1,2}.\d{1,2}.\d{2,4}',
             r'\d{1,2}-\d{1,2}-\d{2,4}',
@@ -17,6 +19,8 @@ def data(text):
                ]
     for patt in pattern:
         return re.findall(patt, text)
+
+# print(date('сегодня 17.02.26, завтра 18/2/2026'))
 
 
 def log(text):
@@ -31,17 +35,15 @@ def log(text):
     for key, patt in pattern.items():
         data[key] = re.search(patt, text).group(1)
     return data
+
 # print(log('2024-02-10 14:23:01 INFO user=ada action=login ip=192.168.1.15'))
 
 
 def passw(passw):
     pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$'
-    if re.match(pattern, passw):
-        return True
-    else:
-        return False
+    return re.match(pattern, passw)
 
-# print(passw('dssdddddd2A%'))
+# print(bool(passw('dssdddddd2A%')))
 
 
 def mail(mail):
@@ -58,6 +60,11 @@ def mail(mail):
 
 def number(number):
     pattern = r'\-|\s|[()]'
-    return re.sub(pattern, '', number)
+    number = re.sub(pattern, '', number)
+    pattern = r'^\+?[78]\d{10}$'
+    if re.match(pattern, number):
+        return number
+    return False
 
-# print(number('+7 (952) 60--30 2-1(0)'))
+print(number('+7 (952) 60--30 2-1(0)'))
+print(number('+82632000000'))
