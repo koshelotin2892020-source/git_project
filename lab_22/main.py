@@ -47,8 +47,7 @@ def passw(passw):
 
 
 def mail(mail):
-    domains = [r'gmail\.com$', r'yandex\.ru$', r'edu\.ru$'] 
-    # pattern = r'^[a-z][a-zA-Z0-9_]*@' + 
+    domains = [r'gmail\.com$', r'yandex\.ru$', r'edu\.ru$']
     for dom in domains:
         pattern = r'^[a-zA-Z][a-zA-Z0-9_]*\@' + dom
         if re.match(pattern, mail):
