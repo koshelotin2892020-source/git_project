@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все авторы</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: 0 auto; }
+        nav { background: #333; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .btn { display: inline-block; padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/courses/">Курсы</a>
+        <a href="/authors/">Авторы</a>
+        <a href="/info/">О проекте</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Все авторы</h1>
+        
+        {% for author in authors %}
+        <div class="card">
+            <h3>{{ author.name }}</h3>
+            <p>{{ author.bio }}</p>
+            <p><strong>Email:</strong> {{ author.email }}</p>
+            <p><strong>Количество курсов:</strong> {{ author.courses_count }}</p>
+            <a href="/authors/{{ author.id }}/" class="btn">Подробнее об авторе</a>
+        </div>
+        {% empty %}
+        <p>Авторы не найдены</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

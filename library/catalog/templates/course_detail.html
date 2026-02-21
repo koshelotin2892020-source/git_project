@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }}</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: 0 auto; }
+        nav { background: #333; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        .card { background: white; padding: 20px; border-radius: 5px; }
+        .btn { display: inline-block; padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/courses/">Курсы</a>
+        <a href="/authors/">Авторы</a>
+        <a href="/info/">О проекте</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h1>{{ course.title }}</h1>
+            
+            <h3>Описание</h3>
+            <p>{{ course.description }}</p>
+            
+            <h3>Детали курса</h3>
+            <ul>
+                <li><strong>Уровень:</strong> {{ course.level }}</li>
+                <li><strong>Длительность:</strong> {{ course.duration }}</li>
+                <li><strong>Цена:</strong> {{ course.price }} ₽</li>
+            </ul>
+            
+            <h3>Об авторе</h3>
+            {% if author %}
+            <p><strong>{{ author.name }}</strong></p>
+            <p>{{ author.bio }}</p>
+            <p>Email: {{ author.email }}</p>
+            <a href="/authors/{{ author.id }}/" class="btn">Страница автора</a>
+            {% endif %}
+            
+            <p style="margin-top: 20px;">
+                <a href="/courses/" class="btn">← Назад к курсам</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

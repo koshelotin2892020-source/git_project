@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все курсы</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f4f4f4; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        nav { background: #333; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .btn { display: inline-block; padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/courses/">Курсы</a>
+        <a href="/authors/">Авторы</a>
+        <a href="/info/">О проекте</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Все курсы</h1>
+        
+        {% for course in courses %}
+        <div class="card">
+            <h3>{{ course.title }}</h3>
+            <p>{{ course.description }}</p>
+            <p><strong>Автор:</strong> 
+                {% for author in AUTHORS %}
+                    {% if author.id == course.author_id %}
+                        {{ author.name }}
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <p><strong>Уровень:</strong> {{ course.level }}</p>
+            <p><strong>Длительность:</strong> {{ course.duration }}</p>
+            <p><strong>Цена:</strong> {{ course.price }} ₽</p>
+            <a href="/courses/{{ course.id }}/" class="btn">Подробнее</a>
+        </div>
+        {% empty %}
+        <p>Курсы не найдены</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

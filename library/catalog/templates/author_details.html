@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ author.name }}</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: 0 auto; }
+        nav { background: #333; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .btn { display: inline-block; padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/courses/">Курсы</a>
+        <a href="/authors/">Авторы</a>
+        <a href="/info/">О проекте</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h1>{{ author.name }}</h1>
+            
+            <h3>Биография</h3>
+            <p>{{ author.bio }}</p>
+            
+            <h3>Контактная информация</h3>
+            <p><strong>Email:</strong> {{ author.email }}</p>
+            
+            <h3>Курсы автора</h3>
+            {% if courses %}
+                {% for course in courses %}
+                <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 3px;">
+                    <h4>{{ course.title }}</h4>
+                    <p>{{ course.description }}</p>
+                    <p><strong>Уровень:</strong> {{ course.level }}</p>
+                    <p><strong>Цена:</strong> {{ course.price }} ₽</p>
+                    <a href="/courses/{{ course.id }}/" class="btn">Подробнее о курсе</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>У автора пока нет курсов</p>
+            {% endif %}
+            
+            <p style="margin-top: 20px;">
+                <a href="/authors/" class="btn">← Назад к авторам</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

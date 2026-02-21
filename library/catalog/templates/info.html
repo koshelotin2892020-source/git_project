@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О проекте</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; margin: 0 auto; }
+        nav { background: #333; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        .card { background: white; padding: 20px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/courses/">Курсы</a>
+        <a href="/authors/">Авторы</a>
+        <a href="/info/">О проекте</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h1>О проекте</h1>
+            
+            <p>Этот сайт представляет собой каталог курсов, разработанный в рамках лабораторной работы по Django.</p>
+            
+            <h3>Особенности проекта:</h3>
+            <ul>
+                <li>Использование view-параметров в URL (/courses/1/, /authors/2/)</li>
+                <li>Хранение данных в константах (без использования БД)</li>
+                <li>Обработка ошибки 404 для несуществующих страниц</li>
+                <li>Навигация между всеми страницами сайта</li>
+            </ul>
+            
+            <h3>Структура сайта:</h3>
+            <ul>
+                <li><a href="/">Главная</a> - общая информация</li>
+                <li><a href="/courses/">Курсы</a> - список всех курсов</li>
+                <li><a href="/authors/">Авторы</a> - список всех авторов</li>
+            </ul>
+            
+            <p><strong>Все данные хранятся в файле catalog/data.py</strong></p>
+        </div>
+    </div>
+</body>
+</html>
