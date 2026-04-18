@@ -1,0 +1,54 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}{% if teacher %}Редактировать{% else %}Создать{% endif %} преподавателя{% endblock %}
+
+{% block content %}
+<h2>{% if teacher %}✏️ Редактировать преподавателя{% else %}➕ Создать преподавателя{% endif %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="first_name">Имя:</label>
+        <input type="text" id="first_name" name="first_name" value="{{ teacher.first_name|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="last_name">Фамилия:</label>
+        <input type="text" id="last_name" name="last_name" value="{{ teacher.last_name|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ teacher.email|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="phone">Телефон:</label>
+        <input type="text" id="phone" name="phone" value="{{ teacher.phone|default:'' }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="hire_date">Дата найма:</label>
+        <input type="date" id="hire_date" name="hire_date" value="{{ teacher.hire_date|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="bio">Биография:</label>
+        <textarea id="bio" name="bio" rows="5">{{ teacher.info.bio|default:'' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="education">Образование:</label>
+        <input type="text" id="education" name="education" value="{{ teacher.info.education|default:'' }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="experience_years">Опыт работы (лет):</label>
+        <input type="number" id="experience_years" name="experience_years" value="{{ teacher.info.experience_years|default:'0' }}">
+    </div>
+    
+    <button type="submit" class="btn">💾 Сохранить</button>
+    <a href="{% url 'schedule:teacher_list' %}" class="btn">Отмена</a>
+</form>
+{% endblock %}

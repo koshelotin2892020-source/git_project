@@ -10,6 +10,3 @@ urlpatterns = [
     path('authors/<int:author_id>/', views.author_detail, name='author_detail'),
     re_path(r'^info', views.info, name='info'),
 ]
-
-# Обработчик 404
-handler404 = 'catalog.views.custom_page_not_found'

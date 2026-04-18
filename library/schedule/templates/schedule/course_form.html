@@ -1,0 +1,60 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}{% if course %}Редактировать{% else %}Создать{% endif %} курс{% endblock %}
+
+{% block content %}
+<h2>{% if course %}✏️ Редактировать курс{% else %}➕ Создать курс{% endif %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="title">Название курса:</label>
+        <input type="text" id="title" name="title" value="{{ course.title|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" rows="5" required>{{ course.description|default:'' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="level">Уровень:</label>
+        <select id="level" name="level" required>
+            <option value="beginner" {% if course.level == 'beginner' %}selected{% endif %}>Начальный</option>
+            <option value="intermediate" {% if course.level == 'intermediate' %}selected{% endif %}>Средний</option>
+            <option value="advanced" {% if course.level == 'advanced' %}selected{% endif %}>Продвинутый</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="price">Цена (руб.):</label>
+        <input type="number" step="0.01" id="price" name="price" value="{{ course.price|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="duration_weeks">Длительность (недели):</label>
+        <input type="number" id="duration_weeks" name="duration_weeks" value="{{ course.duration_weeks|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="start_date">Дата старта:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ course.start_date|default:'' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="teacher_id">Преподаватель:</label>
+        <select id="teacher_id" name="teacher_id" required>
+            <option value="">Выберите преподавателя</option>
+            {% for teacher in teachers %}
+            <option value="{{ teacher.id }}" {% if course.teacher.id == teacher.id %}selected{% endif %}>
+                {{ teacher.first_name }} {{ teacher.last_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <button type="submit" class="btn">💾 Сохранить</button>
+    <a href="{% url 'schedule:course_list' %}" class="btn">Отмена</a>
+</form>
+{% endblock %}

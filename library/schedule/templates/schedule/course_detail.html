@@ -1,0 +1,91 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ course.title }}</h2>
+
+<div class="course-info">
+    <p><strong>Описание:</strong> {{ course.description }}</p>
+    <p><strong>Уровень:</strong> {{ course.get_level_display }}</p>
+    <p><strong>Цена:</strong> {{ course.price }} руб.</p>
+    <p><strong>Длительность:</strong> {{ course.duration_weeks }} недель</p>
+    <p><strong>Дата старта:</strong> {{ course.start_date }}</p>
+    <p><strong>Преподаватель:</strong> 
+        <a href="{% url 'schedule:teacher_detail' course.teacher.id %}">
+            {{ course.teacher.first_name }} {{ course.teacher.last_name }}
+        </a>
+    </p>
+    
+    <h3>👨‍🎓 Студенты на курсе ({{ students_count }}):</h3>
+    {% if students %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Студент</th>
+                <th>Email</th>
+                <th>Дата регистрации</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.registration_date|date:"d.m.Y" }}</td>
+                <td>
+                    <a href="{% url 'schedule:unenroll_student' student.id course.id %}" 
+                       class="btn btn-danger"
+                       onclick="return confirm('Отписать {{ student.first_name }} {{ student.last_name }} от курса?')">
+                        Отчислить
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>➕ Добавить студента на курс:</h3>
+    <form method="post" action="{% url 'schedule:add_student_to_course' course.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <select name="student_id" required>
+                <option value="">Выберите студента</option>
+                {% for student in not_enrolled_students %}
+                <option value="{{ student.id }}">
+                    {{ student.first_name }} {{ student.last_name }} ({{ student.email }})
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-success">➕ Добавить</button>
+        </div>
+    </form>
+    {% else %}
+    <p>❌ На этот курс пока никто не записан</p>
+    
+    <h3>➕ Добавить студента на курс:</h3>
+    <form method="post" action="{% url 'schedule:add_student_to_course' course.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <select name="student_id" required>
+                <option value="">Выберите студента</option>
+                {% for student in not_enrolled_students %}
+                <option value="{{ student.id }}">
+                    {{ student.first_name }} {{ student.last_name }} ({{ student.email }})
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-success">➕ Добавить</button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'schedule:course_update' course.id %}" class="btn">✏️ Редактировать</a>
+    <a href="{% url 'schedule:course_list' %}" class="btn">Назад к списку</a>
+</div>
+{% endblock %}

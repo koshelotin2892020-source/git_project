@@ -1,0 +1,47 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}О системе{% endblock %}
+
+{% block content %}
+<h2>ℹ️ Информация о системе</h2>
+
+<div class="info-section">
+    <h3>Учебная система управления курсами</h3>
+    <p><strong>Версия:</strong> 1.0.0</p>
+    <p><strong>Разработчик:</strong> Учебный проект Django</p>
+    <p><strong>Описание:</strong> Система для управления преподавателями, курсами и студентами.</p>
+    
+    <h3>📊 Статистика системы:</h3>
+    <ul>
+        <li>👨‍🏫 Преподавателей: {{ teachers_count }}</li>
+        <li>📖 Курсов: {{ courses_count }}</li>
+        <li>👨‍🎓 Студентов: {{ students_count }}</li>
+        <li>📝 Записей на курсы: {{ enrollments_count }}</li>
+    </ul>
+    
+    <h3>🛠 Технологии:</h3>
+    <ul>
+        <li>Django {{ django_version }}</li>
+        <li>SQLite / PostgreSQL</li>
+        <li>HTML5 / CSS3</li>
+    </ul>
+    
+    <h3>📞 Контакты:</h3>
+    <p>Email: support@educationsystem.com</p>
+    <p>Телефон: +7 (123) 456-78-90</p>
+    
+    <h3>📅 Функциональность:</h3>
+    <ul>
+        <li>✓ CRUD операции для преподавателей</li>
+        <li>✓ CRUD операции для курсов</li>
+        <li>✓ CRUD операции для студентов</li>
+        <li>✓ Запись и отписка студентов от курсов</li>
+        <li>✓ Фильтрация курсов по преподавателям</li>
+        <li>✓ Аналитические отчеты</li>
+    </ul>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'schedule:index' %}" class="btn">На главную</a>
+</div>
+{% endblock %}

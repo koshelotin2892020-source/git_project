@@ -1,0 +1,89 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Главная - Учебная система{% endblock %}
+
+{% block content %}
+<h2>Добро пожаловать в учебную систему!</h2>
+<p>Здесь вы можете управлять преподавателями, курсами и студентами.</p>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>👨‍🏫 Преподаватели</h3>
+        <div class="stat-number">{{ teachers_count }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>📖 Курсы</h3>
+        <div class="stat-number">{{ courses_count }}</div>
+    </div>
+    <div class="stat-card">
+        <h3>👨‍🎓 Студенты</h3>
+        <div class="stat-number">{{ students_count }}</div>
+    </div>
+</div>
+
+<!-- Быстрая запись студента на курс -->
+<div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+    <h3>⚡ Быстрая запись студента на курс</h3>
+    <form method="post" action="{% url 'schedule:quick_enroll' %}">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
+            <div class="form-group">
+                <label for="student_id">Студент:</label>
+                <select name="student_id" id="student_id" required>
+                    <option value="">Выберите студента</option>
+                    {% for student in all_students %}
+                    <option value="{{ student.id }}">
+                        {{ student.first_name }} {{ student.last_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="course_id">Курс:</label>
+                <select name="course_id" id="course_id" required>
+                    <option value="">Выберите курс</option>
+                    {% for course in all_courses %}
+                    <option value="{{ course.id }}">
+                        {{ course.title }} ({{ course.teacher.first_name }} {{ course.teacher.last_name }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">📝 Записать</button>
+        </div>
+    </form>
+</div>
+
+<h3>📊 Аналитика</h3>
+<div class="stats">
+    <div class="stat-card">
+        <h3>Преподаватели с более чем 2 курсами</h3>
+        {% for teacher in teachers_with_more_than_2_courses %}
+            <p>{{ teacher.first_name }} {{ teacher.last_name }} ({{ teacher.course_count }} курсов)</p>
+        {% empty %}
+            <p>Нет таких преподавателей</p>
+        {% endfor %}
+    </div>
+    
+    <div class="stat-card">
+        <h3>Студенты без курсов</h3>
+        {% for student in students_without_courses %}
+            <p>{{ student.first_name }} {{ student.last_name }}</p>
+        {% empty %}
+            <p>Все студенты записаны на курсы</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <a href="{% url 'schedule:teacher_create' %}" class="btn">➕ Добавить преподавателя</a>
+    </div>
+    <div class="stat-card">
+        <a href="{% url 'schedule:course_create' %}" class="btn">➕ Добавить курс</a>
+    </div>
+    <div class="stat-card">
+        <a href="{% url 'schedule:student_create' %}" class="btn">➕ Добавить студента</a>
+    </div>
+</div>
+{% endblock %}

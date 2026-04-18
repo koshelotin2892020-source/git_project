@@ -1,0 +1,15 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Нет данных{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px;">
+    <h3>📭 Нет данных</h3>
+    <p>{{ message|default:"В этом разделе пока нет записей." }}</p>
+    {% if add_link %}
+    <a href="{{ add_link }}" class="btn">➕ Добавить первую запись</a>
+    {% else %}
+    <a href="{% url 'schedule:index' %}" class="btn">На главную</a>
+    {% endif %}
+</div>
+{% endblock %}

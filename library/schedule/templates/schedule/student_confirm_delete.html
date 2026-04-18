@@ -1,0 +1,27 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Удаление студента{% endblock %}
+
+{% block content %}
+<h2>Удаление студента</h2>
+<p>Вы уверены, что хотите удалить студента <strong>{{ student.first_name }} {{ student.last_name }}</strong>?</p>
+
+<div class="student-info">
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Записан на курсы:</strong> {{ student.courses.count }}</p>
+    {% if student.courses.count > 0 %}
+    <p class="alert alert-error">Внимание! Студент записан на {{ student.courses.count }} курс(ов). При удалении студента эти записи будут потеряны.</p>
+    <ul>
+        {% for course in student.courses.all %}
+        <li>{{ course.title }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <a href="{% url 'schedule:student_list' %}" class="btn">Отмена</a>
+</form>
+{% endblock %}

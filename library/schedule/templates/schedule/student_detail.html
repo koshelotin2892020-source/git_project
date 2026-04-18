@@ -1,0 +1,89 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}{{ student.first_name }} {{ student.last_name }}{% endblock %}
+
+{% block content %}
+<h2>{{ student.first_name }} {{ student.last_name }}</h2>
+
+<div class="student-info">
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Телефон:</strong> {{ student.phone|default:"Не указан" }}</p>
+    <p><strong>Дата рождения:</strong> {{ student.date_of_birth|default:"Не указана" }}</p>
+    <p><strong>Дата регистрации:</strong> {{ student.registration_date|date:"d.m.Y" }}</p>
+    
+    <h3>📚 Записан на курсы:</h3>
+    {% if enrolled_courses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Название курса</th>
+                <th>Уровень</th>
+                <th>Преподаватель</th>
+                <th>Цена</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in enrolled_courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.get_level_display }}</td>
+                <td>{{ course.teacher.first_name }} {{ course.teacher.last_name }}</td>
+                <td>{{ course.price }} руб.</td>
+                <td>
+                    <a href="{% url 'schedule:unenroll_student' student.id course.id %}" 
+                       class="btn btn-danger" 
+                       onclick="return confirm('Вы уверены, что хотите отписаться от курса {{ course.title }}?')">
+                        Отписаться
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>❌ Студент пока не записан ни на один курс</p>
+    {% endif %}
+    
+    <h3>📖 Доступные курсы для записи:</h3>
+    {% if available_courses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Название курса</th>
+                <th>Уровень</th>
+                <th>Преподаватель</th>
+                <th>Цена</th>
+                <th>Длительность</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in available_courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.get_level_display }}</td>
+                <td>{{ course.teacher.first_name }} {{ course.teacher.last_name }}</td>
+                <td>{{ course.price }} руб.</td>
+                <td>{{ course.duration_weeks }} нед.</td>
+                <td>
+                    <a href="{% url 'schedule:enroll_student' student.id course.id %}" 
+                       class="btn btn-success"
+                       onclick="return confirm('Записать студента на курс {{ course.title }}?')">
+                        Записаться
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>✅ Все доступные курсы уже записаны</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'schedule:student_update' student.id %}" class="btn">✏️ Редактировать</a>
+    <a href="{% url 'schedule:student_list' %}" class="btn">Назад к списку</a>
+</div>
+{% endblock %}

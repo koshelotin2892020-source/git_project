@@ -1,0 +1,55 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Студенты{% endblock %}
+
+{% block content %}
+<h2>👨‍🎓 Список студентов</h2>
+<a href="{% url 'schedule:student_create' %}" class="btn">➕ Добавить студента</a>
+
+<h3>📊 Студенты без курсов:</h3>
+{% if students_without_courses %}
+<ul>
+    {% for student in students_without_courses %}
+    <li>
+        {{ student.first_name }} {{ student.last_name }} ({{ student.email }})
+        <a href="{% url 'schedule:student_detail' student.id %}" class="btn">Записать на курс</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Все студенты записаны хотя бы на один курс</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Курсов</th>
+            <th>Дата регистрации</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.first_name }} {{ student.last_name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.courses.count }}</td>
+            <td>{{ student.registration_date|date:"d.m.Y" }}</td>
+            <td>
+                <a href="{% url 'schedule:student_detail' student.id %}" class="btn">Просмотр</a>
+                <a href="{% url 'schedule:student_update' student.id %}" class="btn">Редактировать</a>
+                <a href="{% url 'schedule:student_delete' student.id %}" class="btn btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Нет студентов</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

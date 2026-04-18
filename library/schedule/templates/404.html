@@ -1,0 +1,17 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px;">
+    <h1>404</h1>
+    <h2>Страница не найдена</h2>
+    <p>Извините, запрашиваемая страница не существует.</p>
+    <p>Проверьте правильность адреса или вернитесь на <a href="{% url 'schedule:index' %}">главную страницу</a>.</p>
+    
+    <div style="margin-top: 30px;">
+        <a href="{% url 'schedule:index' %}" class="btn">На главную</a>
+        <a href="javascript:history.back()" class="btn">Назад</a>
+    </div>
+</div>
+{% endblock %}
