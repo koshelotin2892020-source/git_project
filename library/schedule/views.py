@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db.models import Count
 from .models import Teacher, TeacherInfo, Course, Student
+from .forms import TeacherForm, CourseForm
 
 
 # ========== ГЛАВНАЯ СТРАНИЦА ==========
@@ -387,3 +388,63 @@ def info_page(request):
 def custom_404(request, exception):
     """Кастомная страница 404"""
     return render(request, '404.html', status=404)
+
+
+def teacher_create_form(request):
+    """Создание преподавателя с использованием формы"""
+    if request.method == 'POST':
+        form = TeacherForm(request.POST)
+        
+        if form.is_valid():
+            # Создаем преподавателя
+            teacher = Teacher.objects.create(
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email'],
+                phone=form.cleaned_data['phone'],
+                hire_date=form.cleaned_data['hire_date']
+            )
+            
+            # Создаем профиль преподавателя (если есть дополнительные данные)
+            if form.cleaned_data.get('bio') or form.cleaned_data.get('education') or form.cleaned_data.get('experience_years'):
+                TeacherInfo.objects.create(
+                    teacher=teacher,
+                    bio=form.cleaned_data.get('bio', ''),
+                    education=form.cleaned_data.get('education', ''),
+                    experience_years=form.cleaned_data.get('experience_years', 0)
+                )
+            
+            messages.success(request, f'✅ Преподаватель {teacher.first_name} {teacher.last_name} успешно добавлен!')
+            return redirect('schedule:teacher_list')
+        else:
+            messages.error(request, '❌ Пожалуйста, исправьте ошибки в форме')
+    else:
+        form = TeacherForm()
+    
+    return render(request, 'schedule/teacher_create_form.html', {'form': form})
+
+
+def course_create_form(request):
+    """Создание курса с использованием формы"""
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        
+        if form.is_valid():
+            course = Course.objects.create(
+                title=form.cleaned_data['title'],
+                description=form.cleaned_data['description'],
+                level=form.cleaned_data['level'],
+                price=form.cleaned_data['price'],
+                duration_weeks=form.cleaned_data['duration_weeks'],
+                start_date=form.cleaned_data['start_date'],
+                teacher=form.cleaned_data['teacher']
+            )
+            
+            messages.success(request, f'✅ Курс "{course.title}" успешно добавлен!')
+            return redirect('schedule:course_list')
+        else:
+            messages.error(request, '❌ Пожалуйста, исправьте ошибки в форме')
+    else:
+        form = CourseForm()
+
+    return render(request, 'schedule/course_create_form.html', {'form': form})

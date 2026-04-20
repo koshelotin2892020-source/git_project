@@ -1,0 +1,26 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Добавить преподавателя{% endblock %}
+
+{% block content %}
+<section>
+    <h2>➕ Добавить нового преподавателя</h2>
+    
+    <div class="form-container">
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn">✅ Добавить преподавателя</button>
+            <a href="{% url 'schedule:teacher_list' %}" class="btn">Отмена</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

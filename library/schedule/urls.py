@@ -45,4 +45,7 @@ urlpatterns = [
     path('students/<int:student_id>/unenroll/<int:course_id>/',
          views.unenroll_student, name='unenroll_student'),
     path('quick-enroll/', views.quick_enroll, name='quick_enroll'),
+    
+    path('teachers/create-form/', views.teacher_create_form, name='teacher_create_form'),
+    path('courses/create-form/', views.course_create_form, name='course_create_form'),
 ]

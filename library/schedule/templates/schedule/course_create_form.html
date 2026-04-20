@@ -1,0 +1,26 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Добавить курс{% endblock %}
+
+{% block content %}
+<section>
+    <h2>➕ Добавить новый курс</h2>
+    
+    <div class="form-container">
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn">✅ Добавить курс</button>
+            <a href="{% url 'schedule:course_list' %}" class="btn">Отмена</a>
+        </form>
+    </div>
+</section>
+{% endblock %}
