@@ -1,11 +1,11 @@
 from django import forms
-from .models import Teacher, Course, Student
+from .models import Teacher
 from django.core.validators import MinLengthValidator, EmailValidator
 
 
 class TeacherForm(forms.Form):
     """Форма для добавления преподавателя"""
-    
+
     first_name = forms.CharField(
         max_length=100,
         label="Имя",
@@ -17,7 +17,7 @@ class TeacherForm(forms.Form):
         }),
         validators=[MinLengthValidator(2, 'Имя должно содержать минимум 2 символа')]
     )
-    
+
     last_name = forms.CharField(
         max_length=100,
         label="Фамилия",
@@ -29,7 +29,7 @@ class TeacherForm(forms.Form):
         }),
         validators=[MinLengthValidator(2, 'Фамилия должна содержать минимум 2 символа')]
     )
-    
+
     email = forms.EmailField(
         label="Email",
         help_text="Введите email преподавателя (будет использован для связи)",
@@ -40,7 +40,7 @@ class TeacherForm(forms.Form):
         }),
         validators=[EmailValidator('Введите корректный email адрес')]
     )
-    
+
     phone = forms.CharField(
         max_length=20,
         required=False,  # Это поле сделано необязательным
@@ -52,7 +52,7 @@ class TeacherForm(forms.Form):
             'id': 'phone'
         })
     )
-    
+
     hire_date = forms.DateField(
         label="Дата найма",
         help_text="Выберите дату начала работы",
@@ -62,7 +62,7 @@ class TeacherForm(forms.Form):
             'id': 'hire_date'
         })
     )
-    
+
     bio = forms.CharField(
         required=False,
         label="Биография",
@@ -74,7 +74,7 @@ class TeacherForm(forms.Form):
             'id': 'bio'
         })
     )
-    
+
     education = forms.CharField(
         required=False,
         label="Образование",
@@ -85,7 +85,7 @@ class TeacherForm(forms.Form):
             'id': 'education'
         })
     )
-    
+
     experience_years = forms.IntegerField(
         required=False,
         label="Опыт работы (лет)",
@@ -97,14 +97,14 @@ class TeacherForm(forms.Form):
             'min': '0'
         })
     )
-    
+
     def clean_email(self):
         """Дополнительная валидация email"""
         email = self.cleaned_data.get('email')
         if Teacher.objects.filter(email=email).exists():
             raise forms.ValidationError('Преподаватель с таким email уже существует')
         return email
-    
+
     def clean_phone(self):
         """Валидация телефона"""
         phone = self.cleaned_data.get('phone')
@@ -115,7 +115,7 @@ class TeacherForm(forms.Form):
 
 class CourseForm(forms.Form):
     """Форма для добавления курса"""
-    
+
     title = forms.CharField(
         max_length=200,
         label="Название курса",
@@ -126,7 +126,7 @@ class CourseForm(forms.Form):
             'id': 'title'
         })
     )
-    
+
     description = forms.CharField(
         label="Описание",
         help_text="Подробное описание курса",
@@ -137,7 +137,7 @@ class CourseForm(forms.Form):
             'id': 'description'
         })
     )
-    
+
     level = forms.ChoiceField(
         choices=[
             ('beginner', 'Начальный'),
@@ -151,7 +151,7 @@ class CourseForm(forms.Form):
             'id': 'level'
         })
     )
-    
+
     price = forms.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -165,7 +165,7 @@ class CourseForm(forms.Form):
             'min': '0'
         })
     )
-    
+
     duration_weeks = forms.IntegerField(
         label="Длительность (недели)",
         help_text="Сколько недель длится курс",
@@ -176,7 +176,7 @@ class CourseForm(forms.Form):
             'min': '1'
         })
     )
-    
+
     start_date = forms.DateField(
         label="Дата старта",
         help_text="Выберите дату начала курса",
@@ -186,7 +186,7 @@ class CourseForm(forms.Form):
             'id': 'start_date'
         })
     )
-    
+
     teacher = forms.ModelChoiceField(
         queryset=Teacher.objects.all(),
         label="Преподаватель",
@@ -201,7 +201,7 @@ class CourseForm(forms.Form):
 
 class StudentForm(forms.Form):
     """Форма для добавления студента"""
-    
+
     first_name = forms.CharField(
         max_length=100,
         label="Имя",
@@ -212,7 +212,7 @@ class StudentForm(forms.Form):
             'id': 'first_name'
         })
     )
-    
+
     last_name = forms.CharField(
         max_length=100,
         label="Фамилия",
@@ -223,7 +223,7 @@ class StudentForm(forms.Form):
             'id': 'last_name'
         })
     )
-    
+
     email = forms.EmailField(
         label="Email",
         help_text="Введите email студента",
@@ -233,7 +233,7 @@ class StudentForm(forms.Form):
             'id': 'email'
         })
     )
-    
+
     phone = forms.CharField(
         max_length=20,
         required=False,
@@ -245,7 +245,7 @@ class StudentForm(forms.Form):
             'id': 'phone'
         })
     )
-    
+
     date_of_birth = forms.DateField(
         required=False,
         label="Дата рождения",
