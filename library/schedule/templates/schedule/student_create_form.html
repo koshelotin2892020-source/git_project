@@ -1,0 +1,46 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Добавить студента{% endblock %}
+
+{% block content %}
+<section>
+    <h2>➕ Добавить нового студента</h2>
+    
+    <div class="form-container">
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    
+                    {% if field.errors %}
+                        <div class="errorlist">
+                            {% for error in field.errors %}
+                                <div class="alert alert-error" style="margin-bottom: 5px;">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    {{ field }}
+                    
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn">✅ Добавить студента</button>
+            <a href="{% url 'schedule:student_list' %}" class="btn">Отмена</a>
+        </form>
+    </div>
+</section>
+{% endblock %}
