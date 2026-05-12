@@ -269,6 +269,23 @@
                 <a href="{% url 'schedule:course_create_form' %}">➕ Добавить курс</a>
                 <a href="{% url 'schedule:student_create_form' %}">➕ Добавить студента</a>
                 <a href="{% url 'schedule:info' %}">ℹ️ О системе</a>
+                {% if user.is_authenticated %}
+                    <span style="color: white; margin-left: auto;">
+                        👋 {{ user.username }}
+                    </span>
+                    <a href="{% url 'password_change' %}">🔑 Сменить пароль</a>
+                    
+                    <!-- Выход через POST форму -->
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 15px;">
+                            🚪 Выйти
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">🔐 Войти</a>
+                    <a href="{% url 'users:register' %}">📝 Регистрация</a>
+                {% endif %}
             </nav>
         </div>
     </header>
