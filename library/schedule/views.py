@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db.models import Count
-from .models import Teacher, TeacherInfo, Course, Student
+from .models import Teacher, Course, Student
 from .forms import TeacherForm, CourseForm, StudentForm
 
 
@@ -39,14 +39,13 @@ def index(request):
 def teacher_list(request):
     """Список всех преподавателей"""
     teachers = Teacher.objects.all().prefetch_related('courses')
-    return render(request, 'schedule/teacher_list.html',
-                  {'teachers': teachers})
+    return render(request, 'schedule/teacher_list.html', {'teachers': teachers})
 
 
 def teacher_detail(request, teacher_id):
     """Детальная информация о преподавателе"""
     teacher = get_object_or_404(Teacher, id=teacher_id)
-    courses = teacher.courses.all()  # Все курсы преподавателя
+    courses = teacher.courses.all()
     return render(request, 'schedule/teacher_detail.html', {
         'teacher': teacher,
         'courses': courses
@@ -54,33 +53,20 @@ def teacher_detail(request, teacher_id):
 
 
 def teacher_create(request):
-    """Создание нового преподавателя"""
+    """Создание нового преподавателя (старая версия)"""
     if request.method == 'POST':
-        # Получаем данные из формы
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         hire_date = request.POST.get('hire_date')
-        bio = request.POST.get('bio')
-        education = request.POST.get('education')
-        experience_years = request.POST.get('experience_years')
 
-        # Создаем преподавателя
         teacher = Teacher.objects.create(
             first_name=first_name,
             last_name=last_name,
             email=email,
             phone=phone,
             hire_date=hire_date
-        )
-
-        # Создаем профиль преподавателя
-        TeacherInfo.objects.create(
-            teacher=teacher,
-            bio=bio,
-            education=education,
-            experience_years=experience_years or 0
         )
 
         messages.success(request, f'Преподаватель {first_name} {last_name} успешно создан!')
@@ -94,24 +80,15 @@ def teacher_update(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
 
     if request.method == 'POST':
-        teacher.first_name = request.POST.get('first_name')
-        teacher.last_name = request.POST.get('last_name')
-        teacher.email = request.POST.get('email')
-        teacher.phone = request.POST.get('phone')
-        teacher.hire_date = request.POST.get('hire_date')
-        teacher.save()
+        form = TeacherForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Данные преподавателя {teacher.first_name} обновлены!')
+            return redirect('schedule:teacher_detail', teacher_id=teacher.id)
+    else:
+        form = TeacherForm(instance=teacher)
 
-        # Обновляем профиль
-        if hasattr(teacher, 'info'):
-            teacher.info.bio = request.POST.get('bio')
-            teacher.info.education = request.POST.get('education')
-            teacher.info.experience_years = request.POST.get('experience_years', 0)
-            teacher.info.save()
-
-        messages.success(request, f'Данные преподавателя {teacher.first_name} обновлены!')
-        return redirect('schedule:teacher_detail', teacher_id=teacher.id)
-
-    return render(request, 'schedule/teacher_form.html', {'teacher': teacher})
+    return render(request, 'schedule/teacher_form.html', {'form': form})
 
 
 def teacher_delete(request, teacher_id):
@@ -120,12 +97,11 @@ def teacher_delete(request, teacher_id):
 
     if request.method == 'POST':
         teacher_name = f"{teacher.first_name} {teacher.last_name}"
-        teacher.delete()  # TeacherInfo удалится автоматически (CASCADE)
+        teacher.delete()
         messages.success(request, f'Преподаватель {teacher_name} удален!')
         return redirect('schedule:teacher_list')
 
-    return render(request, 'schedule/teacher_confirm_delete.html',
-                  {'teacher': teacher})
+    return render(request, 'schedule/teacher_confirm_delete.html', {'teacher': teacher})
 
 
 # ========== CRUD ДЛЯ COURSE ==========
@@ -151,9 +127,7 @@ def course_list(request):
 def course_detail(request, course_id):
     """Детальная страница курса"""
     course = get_object_or_404(Course, id=course_id)
-    students = course.students.all()  # Все студенты курса
-
-    # Получаем студентов, которые еще не записаны на этот курс
+    students = course.students.all()
     not_enrolled_students = Student.objects.exclude(courses=course)
 
     context = {
@@ -173,7 +147,6 @@ def course_create(request):
         course = Course.objects.create(
             title=request.POST.get('title'),
             description=request.POST.get('description'),
-            level=request.POST.get('level'),
             price=request.POST.get('price'),
             duration_weeks=request.POST.get('duration_weeks'),
             start_date=request.POST.get('start_date'),
@@ -188,25 +161,17 @@ def course_create(request):
 def course_update(request, course_id):
     """Обновление курса"""
     course = get_object_or_404(Course, id=course_id)
-    teachers = Teacher.objects.all()
 
     if request.method == 'POST':
-        course.title = request.POST.get('title')
-        course.description = request.POST.get('description')
-        course.level = request.POST.get('level')
-        course.price = request.POST.get('price')
-        course.duration_weeks = request.POST.get('duration_weeks')
-        course.start_date = request.POST.get('start_date')
-        course.teacher_id = request.POST.get('teacher_id')
-        course.save()
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Курс "{course.title}" обновлен!')
+            return redirect('schedule:course_detail', course_id=course.id)
+    else:
+        form = CourseForm(instance=course)
 
-        messages.success(request, f'Курс "{course.title}" обновлен!')
-        return redirect('schedule:course_detail', course_id=course.id)
-
-    return render(request, 'schedule/course_form.html', {
-        'course': course,
-        'teachers': teachers
-    })
+    return render(request, 'schedule/course_form.html', {'form': form})
 
 
 def course_delete(request, course_id):
@@ -219,16 +184,13 @@ def course_delete(request, course_id):
         messages.success(request, f'Курс "{course_title}" удален!')
         return redirect('schedule:course_list')
 
-    return render(request, 'schedule/course_confirm_delete.html',
-                  {'course': course})
+    return render(request, 'schedule/course_confirm_delete.html', {'course': course})
 
 
 # ========== CRUD ДЛЯ STUDENT ==========
 def student_list(request):
     """Список студентов"""
     students = Student.objects.all().prefetch_related('courses')
-
-    # ORM-запрос: студенты без курсов
     students_without_courses = students.filter(courses__isnull=True)
 
     context = {
@@ -273,17 +235,15 @@ def student_update(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 
     if request.method == 'POST':
-        student.first_name = request.POST.get('first_name')
-        student.last_name = request.POST.get('last_name')
-        student.email = request.POST.get('email')
-        student.phone = request.POST.get('phone')
-        student.date_of_birth = request.POST.get('date_of_birth') or None
-        student.save()
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Данные студента {student.first_name} обновлены!')
+            return redirect('schedule:student_detail', student_id=student.id)
+    else:
+        form = StudentForm(instance=student)
 
-        messages.success(request, f'Данные студента {student.first_name} обновлены!')
-        return redirect('schedule:student_detail', student_id=student.id)
-
-    return render(request, 'schedule/student_form.html', {'student': student})
+    return render(request, 'schedule/student_form.html', {'form': form})
 
 
 def student_delete(request, student_id):
@@ -297,6 +257,43 @@ def student_delete(request, student_id):
         return redirect('schedule:student_list')
 
     return render(request, 'schedule/student_confirm_delete.html', {'student': student})
+
+
+# ========== ДЕЙСТВИЯ СО СТУДЕНТАМИ И КУРСАМИ ==========
+def enroll_student(request, student_id, course_id):
+    student = get_object_or_404(Student, id=student_id)
+    course = get_object_or_404(Course, id=course_id)
+    student.courses.add(course)
+    messages.success(request, f'Студент {student.first_name} записан на курс "{course.title}"!')
+    return redirect('schedule:student_detail', student_id=student.id)
+
+
+def unenroll_student(request, student_id, course_id):
+    student = get_object_or_404(Student, id=student_id)
+    course = get_object_or_404(Course, id=course_id)
+    student.courses.remove(course)
+    messages.success(request, f'Студент {student.first_name} отписан от курса "{course.title}"!')
+    return redirect('schedule:student_detail', student_id=student.id)
+
+
+def quick_enroll(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        course_id = request.POST.get('course_id')
+
+        if student_id and course_id:
+            student = get_object_or_404(Student, id=student_id)
+            course = get_object_or_404(Course, id=course_id)
+
+            if course in student.courses.all():
+                messages.warning(request, f'Студент {student.first_name} уже записан на курс "{course.title}"!')
+            else:
+                student.courses.add(course)
+                messages.success(request, f'✅ Студент {student.first_name} успешно записан на курс "{course.title}"!')
+        else:
+            messages.error(request, 'Пожалуйста, выберите студента и курс')
+
+    return redirect('schedule:index')
 
 
 def add_student_to_course(request, course_id):
@@ -314,66 +311,52 @@ def add_student_to_course(request, course_id):
 
     return redirect('schedule:course_detail', course_id=course.id)
 
-
-# ========== ДЕЙСТВИЯ СО СТУДЕНТАМИ И КУРСАМИ ==========
-def enroll_student(request, student_id, course_id):
-    """Запись студента на курс"""
-    student = get_object_or_404(Student, id=student_id)
-    course = get_object_or_404(Course, id=course_id)
-
-    student.courses.add(course)
-    messages.success(request, f'Студент {student.first_name} записан на курс "{course.title}"!')
-
-    return redirect('schedule:student_detail', student_id=student.id)
+# ========== ФОРМЫ (ModelForm) ==========
 
 
-def unenroll_student(request, student_id, course_id):
-    """Отписка студента от курса"""
-    student = get_object_or_404(Student, id=student_id)
-    course = get_object_or_404(Course, id=course_id)
-
-    student.courses.remove(course)
-    messages.success(request, f'Студент {student.first_name} отписан от курса "{course.title}"!')
-
-    return redirect('schedule:student_detail', student_id=student.id)
-
-
-def quick_enroll(request):
-    """Быстрая запись студента на курс с главной страницы"""
+def teacher_create_form(request):
     if request.method == 'POST':
-        student_id = request.POST.get('student_id')
-        course_id = request.POST.get('course_id')
-
-        if student_id and course_id:
-            student = get_object_or_404(Student, id=student_id)
-            course = get_object_or_404(Course, id=course_id)
-
-            # Проверка, не записан ли уже студент
-            if course in student.courses.all():
-                messages.warning(request, f'Студент {student.first_name} {student.last_name} уже записан на курс "{course.title}"!')
-            else:
-                student.courses.add(course)
-                messages.success(request, f'✅ Студент {student.first_name} {student.last_name} успешно записан на курс "{course.title}"!')
-        else:
-            messages.error(request, 'Пожалуйста, выберите студента и курс')
-
-    return redirect('schedule:index')
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            teacher = form.save()
+            messages.success(request, f'✅ Преподаватель {teacher.first_name} {teacher.last_name} успешно добавлен!')
+            return redirect('schedule:teacher_list')
+    else:
+        form = TeacherForm()
+    return render(request, 'schedule/teacher_create_form.html', {'form': form})
 
 
-# Страница info
+def course_create_form(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course = form.save()
+            messages.success(request, f'✅ Курс "{course.title}" успешно добавлен!')
+            return redirect('schedule:course_list')
+    else:
+        form = CourseForm()
+    return render(request, 'schedule/course_create_form.html', {'form': form})
+
+
+def student_create_form(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            student = form.save()
+            messages.success(request, f'✅ Студент {student.first_name} {student.last_name} успешно добавлен!')
+            return redirect('schedule:student_list')
+    else:
+        form = StudentForm()
+    return render(request, 'schedule/student_create_form.html', {'form': form})
+
+
 def info_page(request):
     """Страница информации о системе"""
     from django import get_version
-    from django.db.models import Count
-
     teachers_count = Teacher.objects.count()
     courses_count = Course.objects.count()
     students_count = Student.objects.count()
-
-    # Подсчет общего количества записей на курсы
-    enrollments_count = Student.objects.aggregate(
-        total=Count('courses')
-    )['total'] or 0
+    enrollments_count = Student.objects.aggregate(total=Count('courses'))['total'] or 0
 
     context = {
         'teachers_count': teachers_count,
@@ -386,89 +369,4 @@ def info_page(request):
 
 
 def custom_404(request, exception):
-    """Кастомная страница 404"""
     return render(request, '404.html', status=404)
-
-
-def teacher_create_form(request):
-    """Создание преподавателя с использованием ModelForm"""
-    if request.method == 'POST':
-        form = TeacherForm(request.POST)
-
-        if form.is_valid():
-            try:
-                # Сохраняем преподавателя
-                teacher = form.save()
-
-                # Сохраняем дополнительную информацию из формы
-                bio = form.cleaned_data.get('bio')
-                education = form.cleaned_data.get('education')
-                experience_years = form.cleaned_data.get('experience_years')
-
-                if bio or education or experience_years:
-                    TeacherInfo.objects.create(
-                        teacher=teacher,
-                        bio=bio or '',
-                        education=education or '',
-                        experience_years=experience_years or 0
-                    )
-
-                messages.success(request, f'✅ Преподаватель {teacher.first_name} {teacher.last_name} успешно добавлен!')
-                return redirect('schedule:teacher_list')
-            except Exception as e:
-                messages.error(request, f'❌ Ошибка при сохранении: {str(e)}')
-        else:
-            # Выводим все ошибки формы
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'Ошибка в поле "{field}": {error}')
-    else:
-        form = TeacherForm()
-
-    return render(request, 'schedule/teacher_create_form.html', {'form': form})
-
-
-def course_create_form(request):
-    """Создание курса с использованием ModelForm"""
-    if request.method == 'POST':
-        form = CourseForm(request.POST)
-
-        if form.is_valid():
-            try:
-                course = form.save()
-                messages.success(request, f'✅ Курс "{course.title}" успешно добавлен!')
-                return redirect('schedule:course_list')
-            except Exception as e:
-                messages.error(request, f'❌ Ошибка при сохранении: {str(e)}')
-        else:
-            # Выводим все ошибки формы
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'Ошибка в поле "{field}": {error}')
-    else:
-        form = CourseForm()
-
-    return render(request, 'schedule/course_create_form.html', {'form': form})
-
-
-def student_create_form(request):
-    """Создание студента с использованием ModelForm"""
-    if request.method == 'POST':
-        form = StudentForm(request.POST)
-
-        if form.is_valid():
-            try:
-                student = form.save()
-                messages.success(request, f'✅ Студент {student.first_name} {student.last_name} успешно добавлен!')
-                return redirect('schedule:student_list')
-            except Exception as e:
-                messages.error(request, f'❌ Ошибка при сохранении: {str(e)}')
-        else:
-            # Выводим все ошибки формы
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'Ошибка в поле "{field}": {error}')
-    else:
-        form = StudentForm()
-
-    return render(request, 'schedule/student_create_form.html', {'form': form})

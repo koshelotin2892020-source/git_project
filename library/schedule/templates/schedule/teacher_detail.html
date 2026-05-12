@@ -9,19 +9,20 @@
     <p><strong>Email:</strong> {{ teacher.email }}</p>
     <p><strong>Телефон:</strong> {{ teacher.phone|default:"Не указан" }}</p>
     <p><strong>Дата найма:</strong> {{ teacher.hire_date }}</p>
+    <p><strong>Должность:</strong> {{ teacher.get_position_display }}</p>
+    <p><strong>Стаж:</strong> {{ teacher.work_years }} лет</p>
+    <p><strong>Рейтинг:</strong> {{ teacher.rating }}</p>
     
-    {% if teacher.info %}
     <h3>Дополнительная информация:</h3>
-    <p><strong>Образование:</strong> {{ teacher.info.education|default:"Не указано" }}</p>
-    <p><strong>Опыт работы:</strong> {{ teacher.info.experience_years }} лет</p>
-    <p><strong>Биография:</strong> {{ teacher.info.bio|default:"Не указана" }}</p>
-    {% endif %}
+    <p><strong>Образование:</strong> {{ teacher.education|default:"Не указано" }}</p>
+    <p><strong>Биография:</strong> {{ teacher.bio|default:"Не указана" }}</p>
+    <p><strong>Языки:</strong> {{ teacher.languages|default:"Не указаны" }}</p>
     
     <h3>📚 Преподаваемые курсы:</h3>
     {% if courses %}
     <ul>
         {% for course in courses %}
-        <li>{{ course.title }} - Уровень: {{ course.get_level_display }}</li>
+        <li>{{ course.title }}</li>
         {% endfor %}
     </ul>
     {% else %}

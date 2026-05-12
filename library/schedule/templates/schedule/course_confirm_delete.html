@@ -1,22 +1,55 @@
 {% extends 'schedule/base.html' %}
 
-{% block title %}Удаление курса{% endblock %}
+{% block title %}Удалить курс{% endblock %}
 
 {% block content %}
-<h2>Удаление курса</h2>
-<p>Вы уверены, что хотите удалить курс <strong>{{ course.title }}</strong>?</p>
-
-<div class="course-info">
-    <p><strong>Преподаватель:</strong> {{ course.teacher.first_name }} {{ course.teacher.last_name }}</p>
-    <p><strong>Студентов на курсе:</strong> {{ course.students.count }}</p>
+<section>
+    <h2>⚠️ Подтверждение удаления</h2>
+    <p>Вы уверены, что хотите удалить курс <strong>{{ course.title }}</strong>?</p>
+    
     {% if course.students.count > 0 %}
-    <p class="alert alert-error">Внимание! На этом курсе есть студенты. При удалении курса студенты будут отписаны автоматически.</p>
+        <div class="alert alert-warning">
+            ⚠️ Внимание! На этом курсе записано <strong>{{ course.students.count }}</strong> студентов.
+            При удалении курса все записи студентов будут потеряны.
+        </div>
     {% endif %}
-</div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'schedule:course_list' %}" class="btn">Отмена</a>
+    </form>
+</section>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Да, удалить</button>
-    <a href="{% url 'schedule:course_list' %}" class="btn">Отмена</a>
-</form>
+<style>
+    .btn-danger {
+        background: #dc3545 !important;
+        color: white;
+    }
+    .btn-danger:hover {
+        background: #c82333 !important;
+    }
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+        background: #6c757d;
+        color: white;
+    }
+    .btn:hover {
+        background: #5a6268;
+    }
+    .alert-warning {
+        background: #fff3cd;
+        color: #856404;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px 0;
+        border: 1px solid #ffeeba;
+    }
+</style>
 {% endblock %}

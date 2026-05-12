@@ -261,13 +261,14 @@
         <div class="container">
             <h1>📚 Учебная система управления курсами</h1>
             <nav>
+                <a href="{% url 'schedule:index' %}">🏠 Главная</a>
                 <a href="{% url 'schedule:teacher_list' %}">👨‍🏫 Список преподавателей</a>
                 <a href="{% url 'schedule:course_list' %}">📖 Список курсов</a>
+                <a href="{% url 'schedule:student_list' %}">👨‍🎓 Студенты</a>
                 <a href="{% url 'schedule:teacher_create_form' %}">➕ Добавить преподавателя</a>
                 <a href="{% url 'schedule:course_create_form' %}">➕ Добавить курс</a>
-                <a href="{% url 'schedule:student_list' %}">👨‍🎓 Студенты</a>
                 <a href="{% url 'schedule:student_create_form' %}">➕ Добавить студента</a>
-                <a href="{% url 'schedule:index' %}">🏠 Главная</a>
+                <a href="{% url 'schedule:info' %}">ℹ️ О системе</a>
             </nav>
         </div>
     </header>

@@ -1,0 +1,115 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<section>
+    <h2>{{ page_title }}</h2>
+    
+    <div class="form-container">
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="errorlist">
+                            {% for error in field.errors %}
+                                <span class="error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn">💾 Сохранить</button>
+            <a href="{{ cancel_url }}" class="btn">Отмена</a>
+        </form>
+    </div>
+</section>
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .help-text {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
+    .errorlist {
+        list-style: none;
+        margin-top: 5px;
+        padding: 0;
+    }
+    .error {
+        color: #dc3545;
+        font-size: 14px;
+    }
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .btn[type="submit"] {
+        background: #28a745;
+        color: white;
+    }
+    .btn[type="submit"]:hover {
+        background: #218838;
+    }
+    .btn:not([type="submit"]) {
+        background: #6c757d;
+        color: white;
+    }
+    .btn:not([type="submit"]):hover {
+        background: #5a6268;
+    }
+</style>
+{% endblock %}

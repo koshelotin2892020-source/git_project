@@ -1,10 +1,12 @@
 {% extends 'schedule/base.html' %}
 
-{% block title %}Список преподавателей{% endblock %}
+{% block title %}Преподаватели{% endblock %}
 
 {% block content %}
 <section>
-    <h2>👨‍🏫 Наши преподаватели</h2>
+    <h2>👨‍🏫 Список преподавателей</h2>
+    
+    <a href="{% url 'schedule:teacher_create_form' %}" class="btn">➕ Добавить преподавателя</a>
     
     {% if teachers %}
         {% for teacher in teachers %}
@@ -12,17 +14,18 @@
             <h3>{{ teacher.first_name }} {{ teacher.last_name }}</h3>
             <p><strong>Email:</strong> {{ teacher.email }}</p>
             <p><strong>Телефон:</strong> {{ teacher.phone|default:"Не указан" }}</p>
-            <p><strong>Дата найма:</strong> {{ teacher.hire_date|date:"d.m.Y" }}</p>
+            <p><strong>Должность:</strong> {{ teacher.get_position_display }}</p>
+            <p><strong>Стаж:</strong> {{ teacher.work_years }} лет</p>
             
-            <p><strong>📚 Преподаваемые курсы:</strong></p>
+            <p><strong>📚 Курсы:</strong></p>
             {% if teacher.courses.all %}
-                <ul class="course-list">
+                <ul>
                     {% for course in teacher.courses.all %}
                     <li>{{ course.title }}</li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p><em>У преподавателя пока нет курсов</em></p>
+                <p>Нет курсов</p>
             {% endif %}
             
             <div style="margin-top: 10px;">
@@ -33,10 +36,7 @@
         </article>
         {% endfor %}
     {% else %}
-        <div class="empty-message">
-            <p>😔 В системе пока нет преподавателей</p>
-            <a href="{% url 'schedule:teacher_create' %}" class="btn">➕ Добавить первого преподавателя</a>
-        </div>
+        <p>Нет преподавателей</p>
     {% endif %}
 </section>
 {% endblock %}

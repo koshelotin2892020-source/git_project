@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>👨‍🎓 Список студентов</h2>
-<a href="{% url 'schedule:student_create' %}" class="btn">➕ Добавить студента</a>
+<a href="{% url 'schedule:student_create_form' %}" class="btn">➕ Добавить студента</a>
 
 <h3>📊 Студенты без курсов:</h3>
 {% if students_without_courses %}

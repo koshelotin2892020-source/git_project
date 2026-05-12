@@ -3,52 +3,41 @@
 {% block title %}Курсы{% endblock %}
 
 {% block content %}
-<h2>📖 Список курсов</h2>
-<a href="{% url 'schedule:course_create' %}" class="btn">➕ Добавить курс</a>
-
-<h3>Фильтр по преподавателю:</h3>
-<form method="get">
-    <select name="teacher" onchange="this.form.submit()">
-        <option value="">Все преподаватели</option>
-        {% for teacher in teachers %}
-        <option value="{{ teacher.id }}" {% if selected_teacher == teacher.id|stringformat:"s" %}selected{% endif %}>
-            {{ teacher.first_name }} {{ teacher.last_name }}
-        </option>
-        {% endfor %}
-    </select>
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <th>Название</th>
-            <th>Уровень</th>
-            <th>Цена</th>
-            <th>Преподаватель</th>
-            <th>Студентов</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
+<section>
+    <h2>📖 Список курсов</h2>
+    
+    <a href="{% url 'schedule:course_create_form' %}" class="btn">➕ Добавить курс</a>
+    
+    <h3>Фильтр по преподавателю:</h3>
+    <form method="get">
+        <select name="teacher" onchange="this.form.submit()">
+            <option value="">Все преподаватели</option>
+            {% for teacher in teachers %}
+            <option value="{{ teacher.id }}" {% if selected_teacher|stringformat:"s" == teacher.id|stringformat:"s" %}selected{% endif %}>
+                {{ teacher.first_name }} {{ teacher.last_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+    
+    {% if courses %}
         {% for course in courses %}
-        <tr>
-            <td>{{ course.title }}</td>
-            <td>{{ course.get_level_display }}</td>
-            <td>{{ course.price }} руб.</td>
-            <td>{{ course.teacher.first_name }} {{ course.teacher.last_name }}</td>
-            <td>{{ course.students.count }}</td>
-            <td>
-                <a href="{% url 'schedule:course_detail' course.id %}" class="btn">Просмотр</a>
+        <article>
+            <h3>{{ course.title }}</h3>
+            <p><strong>Цена:</strong> {{ course.price }} руб.</p>
+            <p><strong>Длительность:</strong> {{ course.duration_weeks }} недель</p>
+            <p><strong>Преподаватель:</strong> {{ course.teacher.first_name }} {{ course.teacher.last_name }}</p>
+            <p><strong>Студентов:</strong> {{ course.students.count }}</p>
+            
+            <div style="margin-top: 10px;">
+                <a href="{% url 'schedule:course_detail' course.id %}" class="btn">Подробнее</a>
                 <a href="{% url 'schedule:course_update' course.id %}" class="btn">Редактировать</a>
                 <a href="{% url 'schedule:course_delete' course.id %}" class="btn btn-danger">Удалить</a>
-                <a href="{% url 'schedule:course_detail' course.id %}#enroll" class="btn btn-success">Записать студента</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="6">Нет курсов</td>
-        </tr>
+            </div>
+        </article>
         {% endfor %}
-    </tbody>
-</table>
+    {% else %}
+        <p>Нет курсов</p>
+    {% endif %}
+</section>
 {% endblock %}
