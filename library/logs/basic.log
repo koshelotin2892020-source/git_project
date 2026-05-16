@@ -1,0 +1,61 @@
+2026-05-16 10:30:28 [DEBUG] users.views: Profile viewed: viewer='koshelot', profile='alex', is_own=False, is_friend=True
+2026-05-16 10:30:28 [WARNING] django.request: Not Found: /favicon.ico
+2026-05-16 10:30:34 [INFO] users.signals: User logged out: username='koshelot', ip='127.0.0.1'
+2026-05-16 10:30:38 [INFO] users.signals: User logged in: username='koshelot', email='koshelotin2892020@gmail.com', ip='127.0.0.1'
+2026-05-16 10:30:59 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\signals.py changed, reloading.
+2026-05-16 10:31:36 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:07 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:11 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:14 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:18 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:30 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:37 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:45 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:49 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:32:57 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:00 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:05 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:09 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:12 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:38 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:43 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:33:47 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:34:16 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:34:22 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:34:27 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\logging_config.py changed, reloading.
+2026-05-16 10:36:43 [DEBUG] users.views: Profile viewed: viewer='koshelot', profile='koshelot', is_own=True, is_friend=False
+2026-05-16 10:37:38 [WARNING] users.views: Invalid avatar file uploaded: user='koshelot', filename='token.txt', content_type='text/plain' — not a valid image
+Traceback (most recent call last):
+  File "C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py", line 164, in _validate_avatar
+    img = Image.open(file)
+  File "C:\Users\alex_\AppData\Local\Programs\Python\Python313\Lib\site-packages\PIL\Image.py", line 3532, in open
+    raise UnidentifiedImageError(msg)
+PIL.UnidentifiedImageError: cannot identify image file <InMemoryUploadedFile: token.txt (text/plain)>
+2026-05-16 10:37:38 [WARNING] users.views: Profile edit validation error: user='koshelot', field='avatar', error='Upload a valid image. The file you uploaded was either not an image or a corrupted image.'
+2026-05-16 10:38:20 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:25 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:33 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:38 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:42 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:46 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:38:52 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:05 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:09 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:19 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:26 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:34 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:39 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:45 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:39:51 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:40:28 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:40:34 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:40:40 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:40:46 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:40:52 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:41:26 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:41:36 [INFO] django.utils.autoreload: C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py changed, reloading.
+2026-05-16 10:43:49 [WARNING] users.signals: Failed login attempt for username='admin', ip='127.0.0.1'
+2026-05-16 10:44:02 [INFO] users.signals: User logged out: username='koshelot', ip='127.0.0.1'
+2026-05-16 10:44:11 [WARNING] users.signals: Failed login attempt for username='admin', ip='127.0.0.1'
+2026-05-16 10:44:26 [WARNING] users.signals: Failed login attempt for username='admin', ip='127.0.0.1'
+2026-05-16 10:44:28 [WARNING] users.signals: Failed login attempt for username='admin', ip='127.0.0.1'

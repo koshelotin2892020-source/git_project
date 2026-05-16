@@ -61,7 +61,7 @@ def teacher_create(request):
         phone = request.POST.get('phone')
         hire_date = request.POST.get('hire_date')
 
-        teacher = Teacher.objects.create(
+        Teacher.objects.create(
             first_name=first_name,
             last_name=last_name,
             email=email,

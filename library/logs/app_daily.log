@@ -1,0 +1,13 @@
+[2026-05-16 10:30:28] WARNING  django.request log.log_message:249 | PID:19624 TID:23364 | Not Found: /favicon.ico
+[2026-05-16 10:37:38] WARNING  users.views views._validate_avatar:176 | PID:14040 TID:9976 | Invalid avatar file uploaded: user='koshelot', filename='token.txt', content_type='text/plain' — not a valid image
+Traceback (most recent call last):
+  File "C:\python\dstu\lang_prog_3kurs\sem_2\git_project\library\users\views.py", line 164, in _validate_avatar
+    img = Image.open(file)
+  File "C:\Users\alex_\AppData\Local\Programs\Python\Python313\Lib\site-packages\PIL\Image.py", line 3532, in open
+    raise UnidentifiedImageError(msg)
+PIL.UnidentifiedImageError: cannot identify image file <InMemoryUploadedFile: token.txt (text/plain)>
+[2026-05-16 10:37:38] WARNING  users.views views.profile_edit:144 | PID:14040 TID:9976 | Profile edit validation error: user='koshelot', field='avatar', error='Upload a valid image. The file you uploaded was either not an image or a corrupted image.'
+[2026-05-16 10:43:49] WARNING  users.signals signals.on_user_login_failed:30 | PID:13640 TID:5880 | Failed login attempt for username='admin', ip='127.0.0.1'
+[2026-05-16 10:44:11] WARNING  users.signals signals.on_user_login_failed:30 | PID:13640 TID:5880 | Failed login attempt for username='admin', ip='127.0.0.1'
+[2026-05-16 10:44:26] WARNING  users.signals signals.on_user_login_failed:30 | PID:13640 TID:5880 | Failed login attempt for username='admin', ip='127.0.0.1'
+[2026-05-16 10:44:28] WARNING  users.signals signals.on_user_login_failed:30 | PID:13640 TID:5880 | Failed login attempt for username='admin', ip='127.0.0.1'

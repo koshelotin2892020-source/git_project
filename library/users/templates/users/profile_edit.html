@@ -1,0 +1,33 @@
+{% extends 'schedule/base.html' %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<section>
+    <h2>✏️ Редактирование профиля</h2>
+
+    <div class="form-container" style="max-width:600px;margin:0 auto;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div style="display:flex;gap:10px;margin-top:10px;">
+                <button type="submit" class="btn btn-success">💾 Сохранить</button>
+                <a href="{% url 'users:profile' request.user.username %}" class="btn" style="background:#6c757d;">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
